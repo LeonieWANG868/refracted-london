@@ -1,0 +1,15 @@
+/dist/
+/node_modules/
+/work/
+/data/raw/district/
+*.zip
+*.log
+*.local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.vscode/
+.DS_Store
+Thumbs.db

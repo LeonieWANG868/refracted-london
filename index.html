@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<title>Refracted London — A City Seen Through Travel Time</title>
+<meta name="description" content="An optical installation using verified Transport for London journeys and geographic data.">
+<link rel="stylesheet" href="./styles.css">
+<link rel="icon" href="./mark.svg" type="image/svg+xml">
+<script type="module" src="./src/app.js"></script>
+</head>
+<body>
+<header class="mast">
+  <div><h1>REFRACTED LONDON</h1><p>A City Seen Through Travel Time</p></div>
+  <button class="quiet method-button" id="open-method" type="button" disabled>Data &amp; methodology</button>
+</header>
+<main>
+  <section class="exhibit" aria-label="Optical installation">
+    <span id="cube-controls" class="sr-only">Drag or use arrow keys to rotate. Scroll or use plus and minus to zoom.</span>
+    <div id="stage" class="stage" aria-label="Rotating glass cube, reconstructed central London and stationary TfL projection">
+      <div class="fallback-cube" aria-hidden="true"><div class="fallback-glass"></div><div class="fallback-beam" id="fallback-beam"></div></div>
+      <canvas id="projection" class="fallback-projection" width="1024" height="696" aria-label="Verified route projection"></canvas>
+    </div>
+    <div class="exhibit-labels"><span>OPTICAL PATH <small class="view-hint">· DRAG / SCROLL</small></span><a id="osm-credit" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer" hidden>© OpenStreetMap contributors</a><span>TfL PROJECTION</span></div>
+  </section>
+  <section class="operator" aria-label="Journey controls and measurements">
+    <form id="journey-form" class="controls">
+      <div class="field">
+        <label for="origin">Origin</label>
+        <select id="origin" name="origin" disabled aria-label="Origin station"><option>Loading journeys…</option></select>
+      </div>
+      <div class="field">
+        <label for="destination">Destination</label>
+        <select id="destination" name="destination" disabled aria-label="Destination station"><option>Loading journeys…</option></select>
+      </div>
+      <div class="actions">
+        <button class="generate" id="generate" type="submit" disabled>Generate journey</button>
+        <button class="quiet reset" id="reset" type="button" aria-label="Reset projection" title="Reset projection" disabled>Reset</button>
+      </div>
+    </form>
+    <div class="readout">
+      <section id="metrics" aria-label="Journey measurements">
+        <dl class="numbers">
+          <div><dt>Distance</dt><dd><strong id="distance">—</strong> km</dd></div>
+          <div><dt>TfL estimate</dt><dd><strong id="minutes">—</strong> min</dd></div>
+          <div><dt>Time / distance</dt><dd><strong id="ratio">—</strong> min/km</dd></div>
+        </dl>
+        <p id="snapshot-date" class="snapshot"></p>
+      </section>
+      <details class="plan-detail">
+        <summary>Journey details</summary>
+        <div class="detail-body">
+          <p class="split-readout">Artistic colour separation <output id="strength">—</output></p>
+          <div class="meter" id="meter" role="meter" aria-label="Artistic colour separation" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div></div></div>
+          <ul id="legs" class="legs" aria-label="TfL route legs"></ul>
+          <p id="coordinates"></p><p id="plan-times"></p>
+        </div>
+      </details>
+    </div>
+    <div class="sequence">
+      <div class="track" id="track" role="progressbar" aria-label="Journey animation" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+      <p id="status" role="status" aria-live="polite">Loading the installation…</p>
+      <details class="projection-log"><summary>Projected routes <output id="count">0</output></summary><ol id="history" aria-label="Accumulated journeys"></ol></details>
+    </div>
+  </section>
+</main>
+
+<dialog id="method" aria-labelledby="method-title">
+  <div class="dialog-top"><h2 id="method-title">Data &amp; methodology</h2><form method="dialog"><button class="quiet" type="submit">Close</button></form></div>
+  <p class="statement">Every journey refracts our understanding of the city.</p>
+  <dl class="method-definitions">
+    <div><dt>Distance and travel time</dt><dd>Great-circle distance between TfL StopPoint coordinates, using a 6,371.0088 km mean Earth radius. Travel time uses the first plan returned for each archived TfL Journey Planner request.</dd></div>
+    <div><dt>Optical path</dt><dd>The beam is an artistic interpretation inspired by Fermat’s principle. Travel minutes set the pacing, and a transfer briefly changes the light intensity. For the small colour split inside the glass, the duration is divided by the greater of the direct distance and 0.75 km. This ratio maps from 1–6 min/km to a capped 0–100% effect.</dd></div>
+    <div><dt>Transport projection</dt><dd>The stationary map uses TfL leg geometry and line colours. Nodes follow the Journey Planner stop sequence and use TfL StopPoint coordinates. Dashes indicate walking or interpolation through verified stops if detailed geometry is unavailable. Moving light suggests journey direction. The data comes from archived plans.</dd></div>
+    <div><dt>Central London</dt><dd id="city-method">The model follows verified geography.</dd></div>
+  </dl>
+  <h3>Sources</h3>
+  <ul id="source-list" class="sources"></ul>
+  <p id="source-note" class="source-note"></p>
+</dialog>
+</body>
+</html>
