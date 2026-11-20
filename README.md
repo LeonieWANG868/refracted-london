@@ -8,6 +8,8 @@ This is an independent project prepared for the Imperial College London internsh
 
 ## Explore the demo
 
+[Open the live demo](https://leoniewang868.github.io/refracted-london/)
+
 - Drag the cube to rotate it and scroll to zoom. With the scene focused, use the arrow keys and plus or minus instead.
 - Choose an origin and destination, then select **Generate journey**. Earlier routes stay on the projection as new routes appear. Select **Reset** to clear them.
 - Open **Data & methodology** for sources and calculations. **Journey details** shows the station order, line names and measurement inputs.
